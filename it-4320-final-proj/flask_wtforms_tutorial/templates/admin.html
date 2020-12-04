@@ -5,9 +5,16 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="formwrapper">
+  <div class="navbar-nav">
+    <a class="nav-item nav-link" href="/">Home &nbsp;&nbsp;</a>
+    <a class="nav-item nav-link" href="admin">Admin &nbsp;&nbsp;</a>
+    <a class="nav-item nav-link" href="reservations">Reservations<br></a>
+  </div>
+  <h1> </h1>
   <h2 class="title">Administrator Login</h2>
-  
+
   <form method="POST" action="/admin">
       {{ form.csrf_token }}
       <div class="form-field">{{ form.username.label }} {{ form.username }}
@@ -28,9 +35,9 @@
           </ul>
         {% endif %}
       </div>
-      
+
       {{ form.login }}
   </form>
-  
+
 </div>
 {% endblock %}
