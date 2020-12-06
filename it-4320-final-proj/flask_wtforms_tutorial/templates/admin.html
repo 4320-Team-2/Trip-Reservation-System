@@ -14,7 +14,9 @@
   </div>
   <h1> </h1>
   <h2 class="title">Administrator Login</h2>
-
+  {% if err %}
+      <p class="err">{{ err }}</p>
+  {% endif %}
   <form method="POST" action="/admin">
       {{ form.csrf_token }}
       <div class="form-field">{{ form.username.label }} {{ form.username }}

@@ -142,3 +142,7 @@ i {
 .g-recaptcha div {
   margin: auto;
 }
+.err{
+  color: #f00;
+  font-weight: bold;
+}
