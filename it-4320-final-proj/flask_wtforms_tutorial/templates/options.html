@@ -5,7 +5,16 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="formwrapper">
+
+  <div class="navbar-nav">
+    <a class="nav-item nav-link" href="/">Home &nbsp;&nbsp;</a>
+    <a class="nav-item nav-link" href="admin">Admin &nbsp;&nbsp;</a>
+    <a class="nav-item nav-link" href="reservations">Reservations<br></a>
+  </div>
+
+  <h1> </h1>
   <h2 class="title">IT-4320 Trip Reservation System</h2>
   <p>Welcome to the IT-4320 reservation system. Use the select box to choose whether to make a reservation or log in as an administrator.</p>
   <form method="POST" action="/">
@@ -19,7 +28,7 @@
           </ul>
         {% endif %}
       </div>
-      
+
       {{ form.submit }}
   </form>
 

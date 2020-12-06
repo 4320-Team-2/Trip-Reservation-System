@@ -5,7 +5,14 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="formwrapper">
+  <div class="navbar-nav">
+    <a class="nav-item nav-link" href="/">Home &nbsp;&nbsp;</a>
+    <a class="nav-item nav-link" href="admin">Admin &nbsp;&nbsp;</a>
+    <a class="nav-item nav-link" href="reservations">Reservations<br></a>
+  </div>
+  <h1> </h1>
   <h2 class="title">Administrator Login</h2>
   {% if err %}
       <p class="err">{{ err }}</p>
@@ -30,9 +37,9 @@
           </ul>
         {% endif %}
       </div>
-      
+
       {{ form.login }}
   </form>
-  
+
 </div>
 {% endblock %}
