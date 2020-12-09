@@ -20,3 +20,11 @@ a {
 li {
   text-align: center;
 }
+
+div.seatingChart {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: lightgray;
+  border-radius: 10px;
+  padding: 5px;
+  width: fit-content;
+}

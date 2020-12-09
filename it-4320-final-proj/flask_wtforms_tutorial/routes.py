@@ -1,5 +1,6 @@
 from flask import current_app as app
 from flask import redirect, render_template, url_for, request, flash
+from .CostCalculation import costCalculation
 
 from .forms import *
 
@@ -23,6 +24,7 @@ def user_options():
 def admin():
     err = None
     chart = None
+    cost = None
     form = AdminLoginForm()
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -46,9 +48,23 @@ def admin():
                 err = "Bad username/password combination. Try Again"
             else:
                 #TODO: Chart needs to be set to seating chart here.
-                chart = None
+                chart = []
+                chart.append(["X"] * 4)
+                chart.append(["O"] * 4)
+                chart.append(["O"] * 4)
+                chart.append(["O"] * 4)
+                chart.append(["O"] * 4)
+                chart.append(["O"] * 4)
+                chart.append(["O"] * 4)
+                chart.append(["O"] * 4)
+                chart.append(["O"] * 4)
+                chart.append(["O"] * 4)
+                chart.append(["O"] * 4)
+                chart.append(["O"] * 4)
+               
+                cost = costCalculation(chart)
 
-            return render_template("admin.html", err=err, chart=chart, form=form, template="form-template")
+            return render_template("admin.html", err=err, chart=chart, cost=cost, form=form, template="form-template")
 
     return render_template("admin.html", title="Admin Login", form=form, template="form-template")
 
