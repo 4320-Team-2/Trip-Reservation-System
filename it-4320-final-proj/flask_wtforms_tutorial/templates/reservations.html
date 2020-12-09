@@ -4,10 +4,20 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
+
+
 {% block content %}
+
 <div class="formwrapper">
+
+  <div class="navbar-nav">
+    <a class="nav-item nav-link" href="/">Home &nbsp;&nbsp;</a>
+    <a class="nav-item nav-link" href="admin">Admin &nbsp;&nbsp;</a>
+    <a class="nav-item nav-link" href="reservations">Reservations<br></a>
+  </div>
+  <h1> </h1>
   <h2 class="title">Reserve Your Seat</h2>
-  
+
   <form method="POST" action="/admin">
       {{ form.csrf_token }}
       <div class="form-field">{{ form.first_name.label }} {{ form.first_name }}
@@ -46,9 +56,9 @@
           </ul>
         {% endif %}
       </div>
-      
+
       {{ form.reserve }}
   </form>
-  
+
 </div>
 {% endblock %}
