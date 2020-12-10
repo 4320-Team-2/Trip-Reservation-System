@@ -1,14 +1,14 @@
 from flask import current_app as app
 from flask import redirect, render_template, url_for, request, flash
 from .CostCalculation import costCalculation
-
 from .forms import *
 import numpy as np
 from .resv_table_numpy import createChart
 from .presentChart import presentChart
+from .reservation import addRes
+from .confirmationNumber import createConfirmationNum
 
 initialChart = createChart()
-chart = initialChart.tolist()
 
 #@app.route("/", methods=['GET', 'POST'])
 @app.route("/", methods=['GET', 'POST'])
@@ -52,26 +52,9 @@ def admin():
             if (success == False):
                 err = "Bad username/password combination. Try Again"
             else:
-                #TODO: Chart needs to be set to seating chart here.
-                # chart = []
-                # chart.append(["X"] * 4)
-                # chart.append(["O"] * 4)
-                # chart.append(["O"] * 4)
-                # chart.append(["O"] * 4)
-                # chart.append(["O"] * 4)
-                # chart.append(["O"] * 4)
-                # chart.append(["O"] * 4)
-                # chart.append(["O"] * 4)
-                # chart.append(["O"] * 4)
-                # chart.append(["O"] * 4)
-                # chart.append(["O"] * 4)
-                # chart.append(["O"] * 4)
-
-
-
                 cost = costCalculation(initialChart)
 
-                chart = initialChart.tolist()
+                chart = presentChart(initialChart)
 
             return render_template("admin.html", err=err, chart=chart, cost=cost, form=form, template="form-template")
 
@@ -79,10 +62,29 @@ def admin():
 
 @app.route("/reservations", methods=['GET', 'POST'])
 def reservations():
-
+    err=None
     form = ReservationForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        row = request.form['row']
+        column = request.form['seat']
+        firstName = request.form['first_name']
+        it4320String = "INFOTC4320"
 
-    if(initialChart[int(row), int(column)] == "O"):
+        if(initialChart[int(row)-1, int(column)-1] == "O"):
+            initialChart[int(row)-1, int(column)-1] = "X"
+
+            confirmationNumber = createConfirmationNum(firstName, it4320String)
+            addRes(firstName, row, column, confirmationNumber)
+
+            err = "Congratulations, " + firstName + "! You will be assigned to Row " + row + ", Seat " + column + " for your upcoming trip. We hope you enjoy your trip! \n Your e-ticket number is: " + confirmationNumber
+            chart = presentChart(initialChart)
+            return render_template("reservations.html", title="Reservations", err=err, chart=chart, form=form,  template="form-template")
+
+        else:
+            err = "ERROR! Row " + row + ", Seat " + column + " is already taken. Please make a different selection."
 
 
-    return render_template("reservations.html", title="Reservations", chart=chart, form=form, template="form-template")
+
+    chart = presentChart(initialChart)
+
+    return render_template("reservations.html", title="Reservations", err=err, chart=chart, form=form, template="form-template")
