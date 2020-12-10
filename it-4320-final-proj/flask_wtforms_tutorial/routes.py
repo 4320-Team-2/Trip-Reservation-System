@@ -3,12 +3,17 @@ from flask import redirect, render_template, url_for, request, flash
 from .CostCalculation import costCalculation
 
 from .forms import *
+import numpy as np
+from .resv_table_numpy import createChart
+from .presentChart import presentChart
 
+initialChart = createChart()
+chart = initialChart.tolist()
 
 #@app.route("/", methods=['GET', 'POST'])
 @app.route("/", methods=['GET', 'POST'])
 def user_options():
-    
+
     form = UserOptionForm()
     if request.method == 'POST' and form.validate_on_submit():
         option = request.form['option']
@@ -17,7 +22,7 @@ def user_options():
             return redirect('/admin')
         else:
             return redirect("/reservations")
-    
+
     return render_template("options.html", title="Choose Option", form=form, template="form-template")
 
 @app.route("/admin", methods=['GET', 'POST'])
@@ -33,11 +38,11 @@ def admin():
 
             success = False
             with open('passcodes.txt', 'r') as f:
-                
+
                 for line in f:
                     passcodes = line.split(',')
                     un = passcodes[0]
-                    pw = passcodes[1].strip()                
+                    pw = passcodes[1].strip()
 
                     if (un == username and pw == password):
                         print("You're logged in.")
@@ -48,21 +53,25 @@ def admin():
                 err = "Bad username/password combination. Try Again"
             else:
                 #TODO: Chart needs to be set to seating chart here.
-                chart = []
-                chart.append(["X"] * 4)
-                chart.append(["O"] * 4)
-                chart.append(["O"] * 4)
-                chart.append(["O"] * 4)
-                chart.append(["O"] * 4)
-                chart.append(["O"] * 4)
-                chart.append(["O"] * 4)
-                chart.append(["O"] * 4)
-                chart.append(["O"] * 4)
-                chart.append(["O"] * 4)
-                chart.append(["O"] * 4)
-                chart.append(["O"] * 4)
-               
-                cost = costCalculation(chart)
+                # chart = []
+                # chart.append(["X"] * 4)
+                # chart.append(["O"] * 4)
+                # chart.append(["O"] * 4)
+                # chart.append(["O"] * 4)
+                # chart.append(["O"] * 4)
+                # chart.append(["O"] * 4)
+                # chart.append(["O"] * 4)
+                # chart.append(["O"] * 4)
+                # chart.append(["O"] * 4)
+                # chart.append(["O"] * 4)
+                # chart.append(["O"] * 4)
+                # chart.append(["O"] * 4)
+
+
+
+                cost = costCalculation(initialChart)
+
+                chart = initialChart.tolist()
 
             return render_template("admin.html", err=err, chart=chart, cost=cost, form=form, template="form-template")
 
@@ -73,5 +82,7 @@ def reservations():
 
     form = ReservationForm()
 
-    return render_template("reservations.html", title="Reservations", form=form, template="form-template")
+    if(initialChart[int(row), int(column)] == "O"):
 
+
+    return render_template("reservations.html", title="Reservations", chart=chart, form=form, template="form-template")
