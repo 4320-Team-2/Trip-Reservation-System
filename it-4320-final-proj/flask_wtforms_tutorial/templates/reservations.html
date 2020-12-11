@@ -4,8 +4,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
-
-
 {% block content %}
 
 <div class="formwrapper">
@@ -17,8 +15,18 @@
   </div>
   <h1> </h1>
   <h2 class="title">Reserve Your Seat</h2>
-
-  <form method="POST" action="/admin">
+  {% if err %}
+     <p class="err">{{ err }}</p>
+  {% endif %}
+  {% if chart %}
+  <p class="chartr"><b>Seating Chart</b> <br> <br> X = Reserved Seat &nbsp; O = Available Seat</p>
+  <div class="seatingChart">
+   {% for row in chart %}
+     <p class="chartr">{{ row }}</p>
+   {% endfor %}
+  </div>
+  {% endif %}
+  <form method="POST" action="/reservations">
       {{ form.csrf_token }}
       <div class="form-field">{{ form.first_name.label }} {{ form.first_name }}
         {% if form.first_name.errors %}
